@@ -30,4 +30,7 @@ private CANSparkMax _intake = new CANSparkMax(6, MotorType.kBrushless);
   public void intakeOut(){
     _intake.set(-1);
   }
+  public void stop(){
+    _intake.set(0);
+  }
 }
