@@ -22,9 +22,12 @@ public class Arm extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   public void raise(){
-    _arm.set(0.5);
+    _arm.set(0.3);
   }
   public void lower(){
-    _arm.set(-0.5);
+    _arm.set(-0.3);
+  }
+  public void stop(){
+    _arm.set(0);
   }
 }

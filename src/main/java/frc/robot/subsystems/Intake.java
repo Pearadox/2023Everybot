@@ -17,6 +17,7 @@ private CANSparkMax _intake = new CANSparkMax(6, MotorType.kBrushless);
 
   public Intake() {
     _intake.restoreFactoryDefaults();
+    _intake.setSmartCurrentLimit(20);
     _intake.burnFlash();
   }
 
@@ -25,10 +26,10 @@ private CANSparkMax _intake = new CANSparkMax(6, MotorType.kBrushless);
     // This method will be called once per scheduler run
   }
   public void intakeIn(){
-    _intake.set(1);
+    _intake.set(-0.40);
   }
   public void intakeOut(){
-    _intake.set(-1);
+    _intake.set(0.40);
   }
   public void stop(){
     _intake.set(0);

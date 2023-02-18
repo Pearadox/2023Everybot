@@ -56,9 +56,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void teleopDrive(Joystick controller) {
-    double axis4 = controller.getRawAxis(4);
+    double axis2 = controller.getRawAxis(2);
     double axis1 = controller.getRawAxis(1);
-    drive(axis4, axis1);
+    drive(axis2, axis1);
   }
 
   public void drive(double rotation, double direction) {

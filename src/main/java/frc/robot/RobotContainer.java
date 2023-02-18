@@ -28,8 +28,8 @@ public class RobotContainer {
   private final DriveTrain _driveTrain = new DriveTrain(_gyro);
   private final Joystick _controller = new Joystick(0);
   private final Joystick _controller2 = new Joystick(1);
-  private Arm _arm;
-  private Intake _intake;
+  private final Arm _arm = new Arm();
+  private final Intake _intake = new Intake();
 
 
 
