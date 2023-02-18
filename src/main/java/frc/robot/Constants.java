@@ -40,5 +40,11 @@ public final class Constants {
     public static final int LOGO_RIGHT = 8;
     public static final int LEFT_STICK_BUTTON = 9;
     public static final int RIGHT_STICK_BUTTON = 10;
+
+    //Joystick controller axis
+    public static final int LOGITECH_UP = 0;
+    public static final int LOGITECH_DOWN = 1;
+
 }
+ 
 }

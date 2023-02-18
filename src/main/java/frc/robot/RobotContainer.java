@@ -26,8 +26,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ADIS16470_IMU _gyro = new ADIS16470_IMU();
   private final DriveTrain _driveTrain = new DriveTrain(_gyro);
-  private final Joystick _controller = new Joystick(0);
+  private final Joystick _controller = new Joystick(0); 
   private Arm _arm;
+  private Intake _intake;
 
 
 
@@ -53,6 +54,8 @@ public class RobotContainer {
   private void configureBindings() {
     new JoystickButton(_controller, JoystickConstants.Y).whileTrue(new RunCommand(_arm::raise, _arm));
     new JoystickButton(_controller, JoystickConstants.A).whileTrue(new RunCommand(_arm::lower, _arm));
+    new JoystickButton(_controller, JoystickConstants.BUMPER_LEFT).whileTrue(new RunCommand(_intake::intakeOut, _intake));
+   new JoystickButton(_controller, JoystickConstants.BUMPER_RIGHT).whileTrue(new RunCommand(_intake::intakeIn, _intake)); 
   }
 
   /**
