@@ -46,5 +46,18 @@ public final class Constants {
     public static final int LOGITECH_DOWN = 1;
 
 }
+  public static final class CANIDs{
+    //Drivetrain sparkmaxes
+    public static final int kfrontLeftID = 4;
+    public static final int kfrontRightID = 3;
+    public static final int kbackLeftID = 2;
+    public static final int kbackRightID = 1;
+    
+    //Arm sparkmaxes
+    public static final int kArmID = 5;
+
+    //Intake sparkmaxes
+    public static final int kIntakeID = 6;
+  }
  
 }

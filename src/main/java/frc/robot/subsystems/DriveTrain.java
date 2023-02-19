@@ -11,13 +11,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+import frc.lib.drivers.PearadoxSparkMax;
+import frc.robot.Constants.CANIDs;
 
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
-  private CANSparkMax _frontLeft = new CANSparkMax(4, MotorType.kBrushless);
-  private CANSparkMax _frontRight = new CANSparkMax(3, MotorType.kBrushless);
-  private CANSparkMax _backLeft = new CANSparkMax(2, MotorType.kBrushless);
-  private CANSparkMax _backRight = new CANSparkMax(1, MotorType.kBrushless);
+  private PearadoxSparkMax _frontLeft = new PearadoxSparkMax(CANIDs.kfrontLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false);
+  private PearadoxSparkMax _frontRight = new PearadoxSparkMax(CANIDs.kfrontRightID, MotorType.kBrushless, IdleMode.kBrake, 55, false);
+  private PearadoxSparkMax _backLeft = new PearadoxSparkMax(CANIDs.kbackLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false, _frontLeft);
+  private PearadoxSparkMax _backRight = new PearadoxSparkMax(CANIDs.kbackRightID, MotorType.kBrushless, IdleMode.kBrake, 55, false, _frontRight);
   private DifferentialDrive _drive = new DifferentialDrive(_frontLeft , _frontRight);
 
   private RelativeEncoder _frontLeftEncoder;
@@ -28,18 +31,7 @@ public class DriveTrain extends SubsystemBase {
   private ADIS16470_IMU _gyro;
 
   public DriveTrain(ADIS16470_IMU gyro) {
-    _frontLeft.restoreFactoryDefaults();
-    _backLeft.restoreFactoryDefaults();
-    _frontRight.restoreFactoryDefaults();
-    _backRight.restoreFactoryDefaults();
 
-    _frontLeft.burnFlash();
-    _frontRight.burnFlash();
-    _backLeft.burnFlash();
-    _backRight.burnFlash();
-
-    _backLeft.follow(_frontLeft);
-    _backRight.follow(_frontRight);
 
     _frontLeftEncoder = _frontLeft.getEncoder();
     _frontRightEncoder = _frontRight.getEncoder();

@@ -5,20 +5,19 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.drivers.PearadoxSparkMax;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase; 
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-private CANSparkMax _intake = new CANSparkMax(6, MotorType.kBrushless);
+private PearadoxSparkMax _intake = new PearadoxSparkMax(6, MotorType.kBrushless, IdleMode.kBrake, 20, false);
 
   public Intake() {
-    _intake.restoreFactoryDefaults();
-    _intake.setSmartCurrentLimit(20);
-    _intake.burnFlash();
   }
 
   @Override
@@ -26,10 +25,10 @@ private CANSparkMax _intake = new CANSparkMax(6, MotorType.kBrushless);
     // This method will be called once per scheduler run
   }
   public void intakeIn(){
-    _intake.set(-0.40);
+    _intake.set(-0.25);
   }
   public void intakeOut(){
-    _intake.set(0.40);
+    _intake.set(0.25);
   }
   public void stop(){
     _intake.set(0);
