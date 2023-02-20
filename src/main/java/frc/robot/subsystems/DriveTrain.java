@@ -14,7 +14,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.lib.drivers.PearadoxSparkMax;
 import frc.robot.Constants.CANIDs;
-
+ 
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   private PearadoxSparkMax _frontLeft = new PearadoxSparkMax(CANIDs.kfrontLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false);

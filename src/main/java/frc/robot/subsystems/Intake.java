@@ -23,13 +23,31 @@ private PearadoxSparkMax _intake = new PearadoxSparkMax(6, MotorType.kBrushless,
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
   }
   public void intakeIn(){
-    _intake.set(-0.25);
-  }
+    double intakeAmps = _intake.getOutputCurrent();
+
+    if (intakeAmps < 10){ 
+      _intake.set(-0.4);
+    }else if (intakeAmps > 10 && intakeAmps<15){
+      _intake.set(-0.15);
+    }else{
+      stop();
+    }
+    }
   public void intakeOut(){
-    _intake.set(0.25);
+
+    double intakeAmps = _intake.getOutputCurrent();
+
+    if (intakeAmps <10){
+    _intake.set(0.4);
+    }else if (intakeAmps > 10 && intakeAmps<15){
+      _intake.set(0.15);
+    }else{
+      stop();
   }
+}
   public void stop(){
     _intake.set(0);
   }

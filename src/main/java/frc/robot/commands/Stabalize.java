@@ -5,38 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.DriveTrain;
 
-public class IntakeToggle extends CommandBase {
-  /** Creates a new IntakeToggle. */
-
-  private Intake _intake;
-  private String intakeType;
-
-  public IntakeToggle(Intake intake) {
-    // Use addRequirements() here to declare subsystem dependencies
-    _intake = intake;
-
+public class Stabalize extends CommandBase {
+  /** Creates a new Stabalize. */
+  public Stabalize() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    if (intakeType == "cone"){
-  
-  }else if (intakeType == "cube"){
-
-  }else{
-    _intake.stop();
-  }
-}
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
