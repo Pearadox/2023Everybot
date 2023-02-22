@@ -59,5 +59,10 @@ public final class Constants {
     //Intake sparkmaxes
     public static final int kIntakeID = 6;
   }
- 
+ public static final class AutoConstants{
+
+ }
+ public static final class DriveTrainConstants{
+  
+ }
 }

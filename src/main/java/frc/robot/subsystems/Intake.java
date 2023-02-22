@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.drivers.PearadoxSparkMax;
+import frc.robot.Constants.CANIDs;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-private PearadoxSparkMax _intake = new PearadoxSparkMax(6, MotorType.kBrushless, IdleMode.kBrake, 20, false);
+private PearadoxSparkMax _intake = new PearadoxSparkMax(CANIDs.kIntakeID, MotorType.kBrushless, IdleMode.kBrake, 20, false);
 
   public Intake() {
   }
@@ -40,9 +41,9 @@ private PearadoxSparkMax _intake = new PearadoxSparkMax(6, MotorType.kBrushless,
 
     double intakeAmps = _intake.getOutputCurrent();
 
-    if (intakeAmps <10){
+    if (intakeAmps <15){
     _intake.set(0.4);
-    }else if (intakeAmps > 10 && intakeAmps<15){
+    }else if (intakeAmps > 15 && intakeAmps<20){
       _intake.set(0.15);
     }else{
       stop();
@@ -50,5 +51,9 @@ private PearadoxSparkMax _intake = new PearadoxSparkMax(6, MotorType.kBrushless,
 }
   public void stop(){
     _intake.set(0);
+  }
+  public double getIntakeAmps(){
+    double intakeAmps = _intake.getOutputCurrent();
+     return intakeAmps;
   }
 }

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -14,7 +15,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.lib.drivers.PearadoxSparkMax;
 import frc.robot.Constants.CANIDs;
- 
+
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   private PearadoxSparkMax _frontLeft = new PearadoxSparkMax(CANIDs.kfrontLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false);
@@ -27,6 +28,7 @@ public class DriveTrain extends SubsystemBase {
   private RelativeEncoder _frontRightEncoder;
   private RelativeEncoder _backLeftEncoder;
   private RelativeEncoder _backRightEncoder;
+
 
   private ADIS16470_IMU _gyro;
 
@@ -45,6 +47,7 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 
   public void teleopDrive(Joystick controller) {

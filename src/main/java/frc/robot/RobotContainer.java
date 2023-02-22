@@ -39,7 +39,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     _driveTrain.setDefaultCommand(new ArcadeDrive(_driveTrain, _controller));
-    _intake.setDefaultCommand(new RunCommand(_intake::stop, _intake));
+    // _intake.setDefaultCommand(new RunCommand(_intake::stop, _intake));
     _arm.setDefaultCommand(new RunCommand(_arm::stop, _arm));
     // Configure the trigger bindings
     configureBindings();
