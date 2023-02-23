@@ -42,6 +42,8 @@ public final class Autos {
     throw new UnsupportedOperationException("This is a utility class!");
   }
   public static CommandBase ramesete(DriveTrain driveTrain){
+    Trajectory exampleTrajectory = PathPlanner.loadPath("sphube pickup", new PathConstraints(2, 1), true);
+  
     driveTrain.resetEncoders();
     driveTrain.zeroHeading();
     RamseteCommand ramseteCommand = new RamseteCommand(

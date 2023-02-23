@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -60,9 +63,28 @@ public final class Constants {
     public static final int kIntakeID = 6;
   }
  public static final class AutoConstants{
-
+  public static final double kRamseteB = 2D;
+    public static final double kRamseteZeta = 0.7D;
  }
  public static final class DriveTrainConstants{
-  
+  public static final double kDistancePerWheelRevolutionMeters = Units.inchesToMeters(Math.PI * 6.0);
+  public static final double kGearReduction = 10.71;
+  public static final double ksVolts = 0.25568;
+  public static final double kvVoltSecondsPerMeter = 2.8971;
+  public static final double kaVoltSecondsSquaredPerMeter = 0.56826;
+  public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+      Units.inchesToMeters(23));
+  public static final double kPDriveVel = 0;
+ }
+ public static final class ArmConstants{
+  public static final double kArmP = 1; // Unknown for now
+  public static final double kArmI = 0;
+  public static final double kArmD = 0;
+  public static final double kArmMin = 0.15;
+  public static final double kArmMax = 0.35;
+
+  public static final double kArmHighRot = 10; //Unknown
+  public static final double kArmMidRot = 10; //Unkown
+  public static final double kArmStored = 10; // Unkown
  }
 }
