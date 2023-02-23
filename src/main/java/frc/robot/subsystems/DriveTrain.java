@@ -4,6 +4,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -16,6 +20,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import frc.lib.drivers.PearadoxSparkMax;
 import frc.robot.Constants.CANIDs;
 
+
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   private PearadoxSparkMax _frontLeft = new PearadoxSparkMax(CANIDs.kfrontLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false);
@@ -24,6 +29,7 @@ public class DriveTrain extends SubsystemBase {
   private PearadoxSparkMax _backRight = new PearadoxSparkMax(CANIDs.kbackRightID, MotorType.kBrushless, IdleMode.kBrake, 55, false, _frontRight);
   private DifferentialDrive _drive = new DifferentialDrive(_frontLeft , _frontRight);
 
+  private DifferentialDriveOdometry _odometry;
   private RelativeEncoder _frontLeftEncoder;
   private RelativeEncoder _frontRightEncoder;
   private RelativeEncoder _backLeftEncoder;
@@ -58,5 +64,39 @@ public class DriveTrain extends SubsystemBase {
 
   public void drive(double rotation, double direction) {
     _drive.arcadeDrive(rotation, direction);
+  }
+  public RelativeEncoder getEncoder() {
+    return _frontLeft.getEncoder();
+  }
+
+  public Pose2d getPose() {
+    return _odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(_frontLeftEncoder.getVelocity() / 60, -_frontRightEncoder.getVelocity() / 60);
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    _odometry.resetPosition(Rotation2d.fromDegrees(_gyro.getAngle()), _frontLeftEncoder.getPosition(), -_frontRightEncoder.getPosition(), pose);
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    _frontLeft.setVoltage(leftVolts);
+    _backLeft.setVoltage(leftVolts);
+    _frontRight.setVoltage(-rightVolts);
+    _backRight.setVoltage(-rightVolts);
+
+    _drive.feed();
+  }
+
+  public void resetEncoders() {
+    _frontLeftEncoder.setPosition(0);
+    _frontRightEncoder.setPosition(0);
+  }
+
+  public void zeroHeading() {
+    _gyro.reset();
   }
 }

@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -16,20 +18,33 @@ import frc.robot.Constants.*;
 public class Arm extends SubsystemBase {
   private PearadoxSparkMax _arm = new PearadoxSparkMax(CANIDs.kArmID, MotorType.kBrushless, IdleMode.kBrake, 30, false);
 
+  private SparkMaxPIDController armController;
+
+
+  private enum ArmMode{
+    High,
+    Mid,
+    Stored
+  }
+
+  private ArmMode mode = ArmMode.Stored;
+
   /** Creates a new Arm. */
-  public Arm() {}
+  public Arm() {
+    armController = _arm.getPIDController();
+    armController.setP(ArmConstants.kArmP);
+    armController.setI(ArmConstants.kArmI);
+    armController.setD(ArmConstants.kArmD);
+
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  public void raise(){
-    _arm.set(0.3);
-  }
-  public void lower(){
-    _arm.set(-0.3);
-  }
-  public void stop(){
-    _arm.set(0);
+  public void hold(){
+    if (mode == ArmMode.High){
+      armController.setReference(ArmConstants.kArmHighRot, ControlType.kPosition);
+    }
   }
 }

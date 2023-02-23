@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 
-public class Stabalize extends CommandBase {
+public class Stabilize extends CommandBase {
   /** Creates a new Stabalize. */
-  public Stabalize() {
+  public Stabilize() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
