@@ -40,7 +40,7 @@ public class RobotContainer {
 
     _driveTrain.setDefaultCommand(new ArcadeDrive(_driveTrain, _controller));
     // _intake.setDefaultCommand(new RunCommand(_intake::stop, _intake));
-    _arm.setDefaultCommand(new RunCommand(_arm::stop, _arm));
+    _arm.setDefaultCommand(new RunCommand(_arm::hold, _arm));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -55,12 +55,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(_controller2, JoystickConstants.Y).whileTrue(new RunCommand(_arm::raise, _arm)); //Y raises arm
-    new JoystickButton(_controller2, JoystickConstants.A).whileTrue(new RunCommand(_arm::lower, _arm)); // A lowers arm
-    new JoystickButton(_controller2, JoystickConstants.BUMPER_LEFT).whileTrue(new RunCommand(_intake::intakeOut, _intake)); // Left bumber cone outake
-    new JoystickButton(_controller2, JoystickConstants.BUMPER_RIGHT).whileTrue(new RunCommand(_intake::intakeIn, _intake));  // Right bumber cone intake
-    new JoystickButton(_controller2, JoystickConstants.B).whileTrue(new RunCommand(_intake::intakeOut, _intake)); // B is cone outake
-    new JoystickButton(_controller2, JoystickConstants.X).whileTrue(new RunCommand(_intake::intakeIn, _intake)); //X is cone intake
+    new JoystickButton(_controller2, JoystickConstants.A).whileTrue(new RunCommand(_arm::armStored, _arm)); //Y raises arm
+    new JoystickButton(_controller2, JoystickConstants.Y).whileTrue(new RunCommand(_arm::armHigh, _arm)); // A lowers arm
+    new JoystickButton(_controller2, JoystickConstants.X).whileTrue(new RunCommand(_arm::armMid, _arm));
+    // new JoystickButton(_controller2, JoystickConstants.BUMPER_LEFT).whileTrue(new RunCommand(_intake::intakeOut, _intake)); // Left bumber cone outake
+    // new JoystickButton(_controller2, JoystickConstants.BUMPER_RIGHT).whileTrue(new RunCommand(_intake::intakeIn, _intake));  // Right bumber cone intake
+    // new JoystickButton(_controller2, JoystickConstants.B).whileTrue(new RunCommand(_intake::intakeOut, _intake)); // B is cone outake
+    // new JoystickButton(_controller2, JoystickConstants.X).whileTrue(new RunCommand(_intake::intakeIn, _intake)); //X is cone intake
   }
 
   /**
