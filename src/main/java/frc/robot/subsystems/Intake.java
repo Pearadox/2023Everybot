@@ -7,12 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.drivers.PearadoxSparkMax;
 import frc.robot.Constants.CANIDs;
-
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
@@ -39,7 +35,7 @@ public class Intake extends SubsystemBase {
     int currentLimit = 25;
 
     if (_intakeState == IntakeState.Off) {
-      power = (0);
+      power = 0;
       currentLimit = 25;
     } else if (_intakeState == IntakeState.CubeIntake) {
       power = 0.4;
@@ -48,7 +44,7 @@ public class Intake extends SubsystemBase {
       power = 0.07;
       currentLimit = 5;
     } else if (_intakeState == IntakeState.ConeIntake) {
-      power = 0.4;
+      power = -0.4;
       currentLimit = 25;
     } else if (_intakeState == IntakeState.ConeHold) {
       power = 0.07;

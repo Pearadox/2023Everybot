@@ -20,52 +20,44 @@ import frc.robot.Constants.*;
 public class Arm extends SubsystemBase {
   private PearadoxSparkMax _arm = new PearadoxSparkMax(CANIDs.kArmID, MotorType.kBrushless, IdleMode.kBrake, 30, false);
 
-  private SparkMaxPIDController _armController;
 
+  private PIDController _armController = new PIDController(ArmConstants.kArmP, ArmConstants.kArmI, ArmConstants.kArmD);
 
-  private enum ArmMode{
-    HIGH,
-    MID,
-    STORED
-  }
+  private double error;
+  private double _power;
+  private double pidOut;
 
-  private ArmMode mode = ArmMode.STORED;
+  public String _state;
+
 
   /** Creates a new Arm. */
   public Arm() {
-    _armController = _arm.getPIDController();
-    _armController.setP(ArmConstants.kArmP, 0);
-    _armController.setI(ArmConstants.kArmI, 0);
-    _armController.setD(ArmConstants.kArmD, 0);
-    _armController.setOutputRange(ArmConstants.kArmMin, ArmConstants.kArmMax);
-    _arm.burnFlash();
 
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-  }
-  public void hold(){
-    if (mode == ArmMode.HIGH){
-      _armController.setReference(ArmConstants.kArmHighRot, ControlType.kPosition, 0);
-    }else if (mode == ArmMode.STORED){
-      _armController.setReference(ArmConstants.kArmStored, ControlType.kPosition, 0);
-    }else if (mode == ArmMode.MID){
-      _armController.setReference(ArmConstants.kArmMidRot, ControlType.kPosition, 0);
+    error = _arm.getEncoder().getPosition();
+    SmartDashboard.putNumber("Error", error);
+    pidOut = _armController.calculate(error, 0);
+    SmartDashboard.putNumber("PID Out", pidOut);
+    if (_state == "High"){
+      _power = pidOut / ArmConstants.kArmHighRot;
+    }else if (_state == "Mid"){
+      _power = pidOut / ArmConstants.kArmMidRot;
+    }else if (_state == "Stored"){
+      _power = pidOut / ArmConstants.kArmStored;
     }
+    if (Math.abs(_power) > ArmConstants.kArmMax) {
+      _power = Math.copySign(ArmConstants.kArmMax, _power);
+    }
+    if (Math.abs(_power) < ArmConstants.kArmMin) {
+      _power = Math.copySign(ArmConstants.kArmMin, _power);
+    }
+    _arm.set(_power);
   }
-  public void armStored(){
-    mode = ArmMode.STORED;
-  }
-  public void armHigh(){
-    mode = ArmMode.HIGH;
-  }
-  public void armMid(){
-    mode = ArmMode.MID;
-  }
-  public String getMode(){
-    String modeString = mode.toString();
-    return modeString;
+  
+  public void changeArmState(String state){
+    _state = state;
   }
 }

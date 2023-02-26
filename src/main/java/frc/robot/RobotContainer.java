@@ -42,7 +42,6 @@ public class RobotContainer {
 
     _driveTrain.setDefaultCommand(new ArcadeDrive(_driveTrain, _driver));
     // _intake.setDefaultCommand(new RunCommand(_intake::stop, _intake));
-    _arm.setDefaultCommand(new RunCommand(_arm::hold, _arm));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -57,9 +56,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(_operator, JoystickConstants.A).whileTrue(new RunCommand(_arm::armStored, _arm)); //Y raises arm
-    new JoystickButton(_operator, JoystickConstants.Y).whileTrue(new RunCommand(_arm::armHigh, _arm)); // A lowers arm
-    new JoystickButton(_operator, JoystickConstants.X).whileTrue(new RunCommand(_arm::armMid, _arm));
+    new JoystickButton(_operator, JoystickConstants.A).whileTrue(new RunCommand(() -> _arm.changeArmState("Stored")));
+    new JoystickButton(_operator, JoystickConstants.Y).whileTrue(new RunCommand(() -> _arm.changeArmState("High")));
+    new JoystickButton(_operator, JoystickConstants.X).whileTrue(new RunCommand(() -> _arm.changeArmState("Mid")));
     new JoystickButton(_operator, JoystickConstants.BUMPER_RIGHT)
       .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.CubeIntake)))
       .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.CubeHold)));
