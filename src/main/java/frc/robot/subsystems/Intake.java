@@ -12,11 +12,22 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase; 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-private PearadoxSparkMax _intake = new PearadoxSparkMax(CANIDs.kIntakeID, MotorType.kBrushless, IdleMode.kBrake, 20, false);
+  private PearadoxSparkMax _intake = new PearadoxSparkMax(CANIDs.kIntakeID, MotorType.kBrushless, IdleMode.kBrake, 20,
+      false);
+
+  public enum IntakeState {
+    Off,
+    CubeIntake,
+    CubeHold,
+    ConeIntake,
+    ConeHold
+  }
+
+  public IntakeState _intakeState = IntakeState.Off;
 
   public Intake() {
   }
@@ -24,36 +35,30 @@ private PearadoxSparkMax _intake = new PearadoxSparkMax(CANIDs.kIntakeID, MotorT
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
-  }
-  public void intakeIn(){
-    double intakeAmps = _intake.getOutputCurrent();
+    double power = 0;
+    int currentLimit = 25;
 
-    if (intakeAmps < 10){ 
-      _intake.set(-0.4);
-    }else if (intakeAmps > 10 && intakeAmps<15){
-      _intake.set(-0.15);
-    }else{
-      stop();
+    if (_intakeState == IntakeState.Off) {
+      power = (0);
+      currentLimit = 25;
+    } else if (_intakeState == IntakeState.CubeIntake) {
+      power = 0.4;
+      currentLimit = 25;
+    } else if (_intakeState == IntakeState.CubeHold) {
+      power = 0.07;
+      currentLimit = 5;
+    } else if (_intakeState == IntakeState.ConeIntake) {
+      power = 0.4;
+      currentLimit = 25;
+    } else if (_intakeState == IntakeState.ConeHold) {
+      power = 0.07;
+      currentLimit = 5;
     }
-    }
-  public void intakeOut(){
-
-    double intakeAmps = _intake.getOutputCurrent();
-
-    if (intakeAmps <15){
-    _intake.set(0.4);
-    }else if (intakeAmps > 15 && intakeAmps<20){
-      _intake.set(0.15);
-    }else{
-      stop();
+    _intake.set(power);
+    _intake.setSmartCurrentLimit(currentLimit);
   }
-}
-  public void stop(){
-    _intake.set(0);
-  }
-  public double getIntakeAmps(){
-    double intakeAmps = _intake.getOutputCurrent();
-     return intakeAmps;
+
+  public void setState(IntakeState state) {
+    _intakeState = state;
   }
 }

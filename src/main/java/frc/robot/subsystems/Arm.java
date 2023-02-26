@@ -20,7 +20,7 @@ import frc.robot.Constants.*;
 public class Arm extends SubsystemBase {
   private PearadoxSparkMax _arm = new PearadoxSparkMax(CANIDs.kArmID, MotorType.kBrushless, IdleMode.kBrake, 30, false);
 
-  private SparkMaxPIDController armController;
+  private SparkMaxPIDController _armController;
 
 
   private enum ArmMode{
@@ -33,11 +33,11 @@ public class Arm extends SubsystemBase {
 
   /** Creates a new Arm. */
   public Arm() {
-    armController = _arm.getPIDController();
-    armController.setP(ArmConstants.kArmP, 0);
-    armController.setI(ArmConstants.kArmI, 0);
-    armController.setD(ArmConstants.kArmD, 0);
-    armController.setOutputRange(ArmConstants.kArmMin, ArmConstants.kArmMax);
+    _armController = _arm.getPIDController();
+    _armController.setP(ArmConstants.kArmP, 0);
+    _armController.setI(ArmConstants.kArmI, 0);
+    _armController.setD(ArmConstants.kArmD, 0);
+    _armController.setOutputRange(ArmConstants.kArmMin, ArmConstants.kArmMax);
     _arm.burnFlash();
 
   }
@@ -48,11 +48,11 @@ public class Arm extends SubsystemBase {
   }
   public void hold(){
     if (mode == ArmMode.HIGH){
-      armController.setReference(ArmConstants.kArmHighRot, ControlType.kPosition, 0);
+      _armController.setReference(ArmConstants.kArmHighRot, ControlType.kPosition, 0);
     }else if (mode == ArmMode.STORED){
-      armController.setReference(ArmConstants.kArmStored, ControlType.kPosition, 0);
+      _armController.setReference(ArmConstants.kArmStored, ControlType.kPosition, 0);
     }else if (mode == ArmMode.MID){
-      armController.setReference(ArmConstants.kArmMidRot, ControlType.kPosition, 0);
+      _armController.setReference(ArmConstants.kArmMidRot, ControlType.kPosition, 0);
     }
   }
   public void armStored(){

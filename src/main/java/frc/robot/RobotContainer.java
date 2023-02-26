@@ -7,9 +7,11 @@ package frc.robot;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Intake.IntakeState;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -26,8 +28,8 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ADIS16470_IMU _gyro = new ADIS16470_IMU();
   private final DriveTrain _driveTrain = new DriveTrain(_gyro);
-  private final Joystick _controller = new Joystick(0);
-  private final Joystick _controller2 = new Joystick(1);
+  private final Joystick _driver = new Joystick(0);
+  private final Joystick _operator = new Joystick(1);
   private final Arm _arm = new Arm();
   private final Intake _intake = new Intake();
 
@@ -38,7 +40,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    _driveTrain.setDefaultCommand(new ArcadeDrive(_driveTrain, _controller));
+    _driveTrain.setDefaultCommand(new ArcadeDrive(_driveTrain, _driver));
     // _intake.setDefaultCommand(new RunCommand(_intake::stop, _intake));
     _arm.setDefaultCommand(new RunCommand(_arm::hold, _arm));
     // Configure the trigger bindings
@@ -55,13 +57,15 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(_controller2, JoystickConstants.A).whileTrue(new RunCommand(_arm::armStored, _arm)); //Y raises arm
-    new JoystickButton(_controller2, JoystickConstants.Y).whileTrue(new RunCommand(_arm::armHigh, _arm)); // A lowers arm
-    new JoystickButton(_controller2, JoystickConstants.X).whileTrue(new RunCommand(_arm::armMid, _arm));
-    // new JoystickButton(_controller2, JoystickConstants.BUMPER_LEFT).whileTrue(new RunCommand(_intake::intakeOut, _intake)); // Left bumber cone outake
-    // new JoystickButton(_controller2, JoystickConstants.BUMPER_RIGHT).whileTrue(new RunCommand(_intake::intakeIn, _intake));  // Right bumber cone intake
-    // new JoystickButton(_controller2, JoystickConstants.B).whileTrue(new RunCommand(_intake::intakeOut, _intake)); // B is cone outake
-    // new JoystickButton(_controller2, JoystickConstants.X).whileTrue(new RunCommand(_intake::intakeIn, _intake)); //X is cone intake
+    new JoystickButton(_operator, JoystickConstants.A).whileTrue(new RunCommand(_arm::armStored, _arm)); //Y raises arm
+    new JoystickButton(_operator, JoystickConstants.Y).whileTrue(new RunCommand(_arm::armHigh, _arm)); // A lowers arm
+    new JoystickButton(_operator, JoystickConstants.X).whileTrue(new RunCommand(_arm::armMid, _arm));
+    new JoystickButton(_operator, JoystickConstants.BUMPER_RIGHT)
+      .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.CubeIntake)))
+      .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.CubeHold)));
+    new JoystickButton(_operator, JoystickConstants.BUMPER_LEFT)
+      .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.ConeIntake)))
+      .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.ConeHold)));
   }
 
   /**
