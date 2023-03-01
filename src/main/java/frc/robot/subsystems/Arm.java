@@ -23,9 +23,9 @@ public class Arm extends SubsystemBase {
 
   private PIDController _armController = new PIDController(ArmConstants.kArmP, ArmConstants.kArmI, ArmConstants.kArmD);
 
-  private double error;
+  private double _error;
   private double _power;
-  private double pidOut;
+  private double _pidOut;
 
   public String _state;
 
@@ -37,26 +37,27 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    error = _arm.getEncoder().getPosition();
-    SmartDashboard.putNumber("Error", error);
-    pidOut = _armController.calculate(error, 0);
-    SmartDashboard.putNumber("PID Out", pidOut);
+    _error = _arm.getEncoder().getPosition();
+    SmartDashboard.putNumber("Error", _error);
+    SmartDashboard.putNumber("PID Out", _pidOut);
     if (_state == "High"){
-      _power = pidOut / ArmConstants.kArmHighRot;
+      _pidOut = _armController.calculate(_error, ArmConstants.kArmHighRot);
+      _power = _pidOut / ArmConstants.kArmHighRot;
     }else if (_state == "Mid"){
-      _power = pidOut / ArmConstants.kArmMidRot;
+      _pidOut = _armController.calculate(_error, ArmConstants.kArmMidRot);
+      _power = _pidOut / ArmConstants.kArmMidRot;
     }else if (_state == "Stored"){
-      _power = pidOut / ArmConstants.kArmStored;
+      _pidOut = _armController.calculate(_error, ArmConstants.kArmStored);
+      _power = _pidOut / ArmConstants.kArmStored;
+    }else{
+      _power = 0.01;
     }
     if (Math.abs(_power) > ArmConstants.kArmMax) {
       _power = Math.copySign(ArmConstants.kArmMax, _power);
     }
-    if (Math.abs(_power) < ArmConstants.kArmMin) {
-      _power = Math.copySign(ArmConstants.kArmMin, _power);
-    }
     _arm.set(_power);
   }
-  
+
   public void changeArmState(String state){
     _state = state;
   }
