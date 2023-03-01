@@ -77,14 +77,14 @@ public final class Constants {
   public static final double kPDriveVel = 0;
  }
  public static final class ArmConstants{
-  public static final double kArmP = 3.5; // Unknown for now
+  public static final double kArmP = 3.5;
   public static final double kArmI = 0;
   public static final double kArmD = 0;
   public static final double kArmMin = 0.01;
-  public static final double kArmMax = 0.07;
+  public static final double kArmMax = 0.15;
 
-  public static final double kArmHighRot = 30; //Unknown
+  public static final double kArmHighRot = 31;
   public static final double kArmMidRot = 20; 
-  public static final double kArmStored = 0; 
+  public static final double kArmStored = 5; //Increase slightly when testing if arm motor skips in stowed position
  }
 }

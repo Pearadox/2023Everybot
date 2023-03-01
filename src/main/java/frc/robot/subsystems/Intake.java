@@ -38,16 +38,16 @@ public class Intake extends SubsystemBase {
       power = 0;
       currentLimit = 25;
     } else if (_intakeState == IntakeState.CubeIntake) {
-      power = 0.4;
+      power = 0.6;
       currentLimit = 25;
     } else if (_intakeState == IntakeState.CubeHold) {
       power = 0.07;
       currentLimit = 5;
     } else if (_intakeState == IntakeState.ConeIntake) {
-      power = -0.4;
+      power = -1;
       currentLimit = 25;
     } else if (_intakeState == IntakeState.ConeHold) {
-      power = 0.07;
+      power = -0.07;
       currentLimit = 5;
     }
     _intake.set(power);
