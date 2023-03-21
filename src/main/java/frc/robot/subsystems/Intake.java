@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase {
       power = 0;
       currentLimit = 25;
     } else if (_intakeState == IntakeState.CubeIntake) {
-      power = 0.6;
+      power = 1;
       currentLimit = 25;
     } else if (_intakeState == IntakeState.CubeHold) {
       power = 0.07;
@@ -57,4 +57,5 @@ public class Intake extends SubsystemBase {
   public void setState(IntakeState state) {
     _intakeState = state;
   }
+
 }

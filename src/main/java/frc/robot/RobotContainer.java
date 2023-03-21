@@ -15,12 +15,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -28,31 +30,33 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ADIS16470_IMU _gyro = new ADIS16470_IMU();
   private final DriveTrain _driveTrain = new DriveTrain(_gyro);
-  private final Joystick _driver = new Joystick(0);
+  private final Joystick _driver = new Joystick(1);
+  // set to 0 if no operator otherwise set to 1
   private final Joystick _operator = new Joystick(1);
   private final Arm _arm = new Arm();
   private final Intake _intake = new Intake();
 
-
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
-
-    _driveTrain.setDefaultCommand(new ArcadeDrive(_driveTrain, _driver));
-    // _intake.setDefaultCommand(new RunCommand(_intake::stop, _intake));
-    // Configure the trigger bindings
-    configureBindings();
+    runContainer();
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
@@ -60,11 +64,11 @@ public class RobotContainer {
     new JoystickButton(_operator, JoystickConstants.Y).whileTrue(new RunCommand(() -> _arm.changeArmState("High")));
     new JoystickButton(_operator, JoystickConstants.X).whileTrue(new RunCommand(() -> _arm.changeArmState("Mid")));
     new JoystickButton(_operator, JoystickConstants.BUMPER_RIGHT)
-      .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.CubeIntake)))
-      .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.CubeHold)));
+        .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.CubeIntake)))
+        .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.CubeHold)));
     new JoystickButton(_operator, JoystickConstants.BUMPER_LEFT)
-      .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.ConeIntake)))
-      .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.ConeHold)));
+        .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.ConeIntake)))
+        .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.ConeHold)));
   }
 
   /**
@@ -74,6 +78,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.exampleAuto(_arm, _driveTrain, _intake);
+  }
+
+  private void runContainer() {
+
+    _driveTrain.setDefaultCommand(new ArcadeDrive(_driveTrain, _driver));
+    // Configure the trigger bindings
+    configureBindings();
   }
 }

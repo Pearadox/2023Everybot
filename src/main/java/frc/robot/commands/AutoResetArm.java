@@ -5,14 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 
-public class Stabilize extends CommandBase {
-  /** Creates a new Stabalize. */
-  public Stabilize() {
+public class AutoResetArm extends CommandBase {
+  /** Creates a new AutoRaiseArm. */
+  private Arm _arm;
+
+  private double armPose;
+
+  private boolean isDone = false;
+
+  public AutoResetArm(Arm arm) {
+_arm = arm;
+addRequirements(_arm);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -22,7 +28,13 @@ public class Stabilize extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    armPose = _arm.getArmPose();
+    _arm.changeArmState("Stored");
+    if (armPose < 1){
+      isDone = true;
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -31,6 +43,6 @@ public class Stabilize extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isDone;
   }
 }
