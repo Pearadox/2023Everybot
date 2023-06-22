@@ -79,9 +79,9 @@ public final class Constants {
         Units.inchesToMeters(23));
     public static final double kPDriveVel = 0;
     // XBOX or JOYSTICK as value
-    public static final String driveController = "XBOX";
+    public static final String driveController = "JOYSTICK";
     // 0.9 for XBOX is best and 0.65 for JOYSTICK is best
-    public static final double turnReduction = 0.9;
+    public static final double turnReduction = 0.65;
     // keep the same for both controller types
     public static final double directionReduction = .85;
 

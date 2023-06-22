@@ -30,7 +30,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final ADIS16470_IMU _gyro = new ADIS16470_IMU();
   private final DriveTrain _driveTrain = new DriveTrain(_gyro);
-  private final Joystick _driver = new Joystick(1);
+  private final Joystick _driver = new Joystick(0);
   // set to 0 if no operator otherwise set to 1
   private final Joystick _operator = new Joystick(1);
   private final Arm _arm = new Arm();
