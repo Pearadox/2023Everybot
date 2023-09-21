@@ -24,10 +24,10 @@ import frc.robot.Constants.CANIDs;
 
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
-  private PearadoxSparkMax _frontLeft = new PearadoxSparkMax(CANIDs.kfrontLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false);
-  private PearadoxSparkMax _frontRight = new PearadoxSparkMax(CANIDs.kfrontRightID, MotorType.kBrushless, IdleMode.kBrake, 55, false);
-  private PearadoxSparkMax _backLeft = new PearadoxSparkMax(CANIDs.kbackLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false, _frontLeft);
-  private PearadoxSparkMax _backRight = new PearadoxSparkMax(CANIDs.kbackRightID, MotorType.kBrushless, IdleMode.kBrake, 55, false, _frontRight);
+  private PearadoxSparkMax _frontLeft = new PearadoxSparkMax(CANIDs.kfrontLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false, null, Constants.DriveTrainConstants.kRampRate);
+  private PearadoxSparkMax _frontRight = new PearadoxSparkMax(CANIDs.kfrontRightID, MotorType.kBrushless, IdleMode.kBrake, 55, false, null, Constants.DriveTrainConstants.kRampRate);
+  private PearadoxSparkMax _backLeft = new PearadoxSparkMax(CANIDs.kbackLeftID, MotorType.kBrushless, IdleMode.kBrake, 55, false, _frontLeft, Constants.DriveTrainConstants.kRampRate);
+  private PearadoxSparkMax _backRight = new PearadoxSparkMax(CANIDs.kbackRightID, MotorType.kBrushless, IdleMode.kBrake, 55, false, _frontRight, Constants.DriveTrainConstants.kRampRate);
   private DifferentialDrive _drive = new DifferentialDrive(_frontLeft , _frontRight);
 
   private DifferentialDriveOdometry _odometry;
@@ -49,6 +49,7 @@ public class DriveTrain extends SubsystemBase {
     _backRightEncoder = _backRight.getEncoder();
 
     _gyro = gyro;
+
 
   }
 
