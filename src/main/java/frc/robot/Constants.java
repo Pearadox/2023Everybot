@@ -84,7 +84,7 @@ public final class Constants {
     public static final double turnReduction = 0.65;
     // keep the same for both controller types
     public static final double directionReduction = .85;
-
+    public static final double kRampRate = 0.5;
   }
 
   public static final class ArmConstants {
