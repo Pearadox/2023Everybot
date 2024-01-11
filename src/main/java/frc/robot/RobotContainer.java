@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -69,6 +70,7 @@ public class RobotContainer {
     new JoystickButton(_operator, JoystickConstants.BUMPER_LEFT)
         .onTrue(new InstantCommand(() -> _intake.setState(IntakeState.ConeIntake)))
         .onFalse(new InstantCommand(() -> _intake.setState(IntakeState.ConeHold)));
+    new JoystickButton(_driver, JoystickConstants.B).whileTrue(new FollowApril(_driveTrain));
   }
 
   /**
