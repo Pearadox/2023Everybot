@@ -54,10 +54,11 @@ public final class Constants {
 
   public static final class CANIDs {
     // Drivetrain sparkmaxes
-    public static final int kfrontLeftID = 4;
-    public static final int kfrontRightID = 3;
-    public static final int kbackLeftID = 2;
-    public static final int kbackRightID = 1;
+    // changed to match 2024Kitbot when testing
+    public static final int kfrontLeftID = 10; // formerly 4;
+    public static final int kfrontRightID = 13; // formerly 3;
+    public static final int kbackLeftID = 11; // formerly 2;
+    public static final int kbackRightID = 12; // formerly 1;
     // Arm sparkmaxes
     public static final int kArmID = 5;
     // Intake sparkmaxes
